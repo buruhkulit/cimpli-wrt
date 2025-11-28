@@ -1,0 +1,225 @@
+---
+proxy-providers:
+  VPN Backup:
+    type: file
+    path: "./proxy_provider/VPN Backup.yaml"
+    health-check:
+      enable: true
+      url: http://www.gstatic.com/generate_204
+      interval: 30
+  VPN Indonesia:
+    type: file
+    path: "./proxy_provider/VPN Indonesia.yaml"
+    health-check:
+      enable: true
+      url: http://www.gstatic.com/generate_204
+      interval: 30
+  VPN Premium:
+    type: file
+    path: "./proxy_provider/VPN Premium.yaml"
+    health-check:
+      enable: true
+      url: http://www.gstatic.com/generate_204
+      interval: 30
+
+proxy-groups:
+- name: Cimpli
+  type: select
+  disable-udp: false
+  use:
+  - VPN Backup
+  - VPN Indonesia
+  - VPN Premium
+  url: http://www.gstatic.com/generate_204
+  interval: '30'
+- name: WhatsApp
+  type: select
+  disable-udp: false
+  proxies:
+  - Premium
+  - Indonesia
+  - Backup
+  - DIRECT
+  url: http://www.gstatic.com/generate_204
+  interval: '30'
+- name: Sosmed
+  type: select
+  disable-udp: false
+  proxies:
+  - Premium
+  - Indonesia
+  - Backup
+  - DIRECT
+  url: http://www.gstatic.com/generate_204
+  interval: '30'
+- name: Streaming
+  type: select
+  disable-udp: false
+  proxies:
+  - Premium
+  - Indonesia
+  - Backup
+  - DIRECT
+  url: http://www.gstatic.com/generate_204
+  interval: '30'
+- name: uBlock
+  type: select
+  disable-udp: false
+  proxies:
+  - REJECT
+  - Cimpli
+  url: http://www.gstatic.com/generate_204
+  interval: '30'
+- name: Adult 18+
+  type: select
+  disable-udp: false
+  proxies:
+  - REJECT
+  - Cimpli
+  url: http://www.gstatic.com/generate_204
+  interval: '30'
+- name: Premium
+  type: fallback
+  disable-udp: false
+  use:
+  - VPN Premium
+  - VPN Backup
+  - VPN Indonesia
+  url: http://www.gstatic.com/generate_204
+  interval: '30'
+- name: Indonesia
+  type: fallback
+  disable-udp: false
+  use:
+  - VPN Indonesia
+  - VPN Premium
+  - VPN Backup
+  url: http://www.gstatic.com/generate_204
+  interval: '30'
+- name: Backup
+  type: fallback
+  disable-udp: false
+  use:
+  - VPN Backup
+  - VPN Premium
+  - VPN Indonesia
+  url: http://www.gstatic.com/generate_204
+  interval: '30'
+
+
+port: 7890
+socks-port: 7891
+redir-port: 7892
+mixed-port: 7893
+tproxy-port: 7895
+ipv6: false
+mode: rule
+log-level: silent
+allow-lan: true
+external-controller: 0.0.0.0:9090
+secret: reyre
+bind-address: "*"
+unified-delay: true
+profile:
+  store-selected: true
+  store-fake-ip: true
+dns:
+  enable: true
+  ipv6: false
+  use-host: true
+  enhanced-mode: fake-ip
+  listen: 0.0.0.0:7874
+  nameserver:
+    - https://8.8.8.8/dns-query
+    - https://8.8.4.4/dns-query
+  fallback:
+    - https://1.1.1.1/dns-query
+    - 8.8.8.8
+    - 1.1.1.1
+  default-nameserver:
+    - 8.8.8.8
+    - 1.1.1.1
+  fake-ip-range: 198.18.0.1/16
+  fake-ip-filter:
+  - "+.*"
+
+rules:
+- RULE-SET,Rule_Whatsapp,WhatsApp
+- RULE-SET,Rule_Game,Premium
+- RULE-SET,Rule_Mbanking,Premium
+- RULE-SET,Rule_Olshop,Sosmed
+- RULE-SET,Rule_Sosmed,Sosmed
+- RULE-SET,Rule_Streaming,Streaming
+- RULE-SET,Rule_Speedtest,Sosmed
+- RULE-SET,Rule_Browser,Sosmed
+- RULE-SET,Rule_Adblock,uBlock
+- RULE-SET,Rule_Adult18+,Adult 18+
+- MATCH,GLOBAL
+
+rule-providers:
+  Reject:
+    type: http
+    behavior: classical
+    path: "./Reject.yaml"
+    url: https://raw.githubusercontent.com/buruhkulit/cimpli-wrt/refs/heads/main/rule_provider/Reject.yaml
+    interval: 86400
+  Rule_Game:
+    type: http
+    behavior: classical
+    path: "./Game.yaml"
+    url: https://raw.githubusercontent.com/buruhkulit/cimpli-wrt/refs/heads/main/rule_provider/Game.yaml
+    interval: 86400
+  Rule_Whatsapp:
+    type: http
+    behavior: classical
+    path: "./Whatsapp.yaml"
+    url: https://raw.githubusercontent.com/buruhkulit/cimpli-wrt/refs/heads/main/rule_provider/Whatsapp.yaml
+    interval: 86400
+  Rule_Mbanking:
+    type: http
+    behavior: classical
+    path: "./Mbanking.yaml"
+    url: https://raw.githubusercontent.com/buruhkulit/cimpli-wrt/refs/heads/main/rule_provider/Mbanking.yaml
+    interval: 86400
+  Rule_Olshop:
+    type: http
+    behavior: classical
+    path: "./Olshop.yaml"
+    url: https://raw.githubusercontent.com/buruhkulit/cimpli-wrt/refs/heads/main/rule_provider/Olshop.yaml
+    interval: 86400
+  Rule_Sosmed:
+    type: http
+    behavior: classical
+    path: "./Sosmed.yaml"
+    url: https://raw.githubusercontent.com/buruhkulit/cimpli-wrt/refs/heads/main/rule_provider/Sosmed.yaml
+    interval: 86400
+  Rule_Streaming:
+    type: http
+    behavior: classical
+    path: "./Streaming.yaml"
+    url: https://raw.githubusercontent.com/buruhkulit/cimpli-wrt/refs/heads/main/rule_provider/Streaming.yaml
+    interval: 86400
+  Rule_Speedtest:
+    type: http
+    behavior: classical
+    path: "./Speedtest.yaml"
+    url: https://raw.githubusercontent.com/buruhkulit/cimpli-wrt/refs/heads/main/rule_provider/Speedtest.yaml
+    interval: 86400
+  Rule_Browser:
+    type: http
+    behavior: classical
+    path: "./Browser.yaml"
+    url: https://raw.githubusercontent.com/buruhkulit/cimpli-wrt/refs/heads/main/rule_provider/Browser.yaml
+    interval: 86400
+  Rule_Adblock:
+    type: http
+    behavior: classical
+    path: "./Adblock.yaml"
+    url: https://raw.githubusercontent.com/buruhkulit/cimpli-wrt/refs/heads/main/rule_provider/Adblock.yaml
+    interval: 86400
+  Rule_Adult18+:
+    type: http
+    behavior: classical
+    path: "./Adult.yaml"
+    url: https://raw.githubusercontent.com/buruhkulit/cimpli-wrt/refs/heads/main/rule_provider/Adult.yaml
+    interval: 86400
