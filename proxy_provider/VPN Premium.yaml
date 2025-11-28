@@ -1,0 +1,36 @@
+proxies:
+# > Config by Goodboy X MahaVPN
+# > Join Grup tele for More Update: https://t.me/MahaVPN_Group
+# > All Format Akun Clash Silahkan Akses Link Berikut: https://github.com/GboyGud/FORMAT_AKUN_CLASH
+# > Mulai Baris Ini Kebawah Isi Dengan Akun Anda Sendiri
+# > Isi Menggunakan Akun VPN Server INDONESIA
+
+#========= ORBIT =========
+- name: LeaseWeb-05/23/26 🇸🇬 🔴
+  server: 104.18.1.196
+  port: 443
+  type: trojan
+  password: QmJTJ0TIJCoYktNcXiJrVQ
+  skip-cert-verify: true
+  sni: xray3.southeast.sbs
+  network: ws
+  ws-opts:
+    path: /trojan
+    headers:
+      Host: xray3.southeast.sbs
+  udp: true
+  interface-name: eth0.200
+- name: LeaseWeb2
+  server: 104.18.1.196
+  port: 443
+  type: trojan
+  password: QmJTJ0TIJCoYktNcXiJrVQ
+  skip-cert-verify: true
+  sni: xray3.southeast.sbs
+  network: ws
+  ws-opts:
+    path: /trojan
+    headers:
+      Host: xray3.southeast.sbs
+  udp: true
+  interface-name: wwan0

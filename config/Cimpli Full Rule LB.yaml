@@ -1,0 +1,292 @@
+---
+proxy-providers:
+  VPN Backup:
+    type: file
+    path: "./proxy_provider/VPN Backup.yaml"
+    health-check:
+      enable: true
+      url: http://www.gstatic.com/generate_204
+      interval: 30
+  VPN Indonesia:
+    type: file
+    path: "./proxy_provider/VPN Indonesia.yaml"
+    health-check:
+      enable: true
+      url: http://www.gstatic.com/generate_204
+      interval: 30
+  VPN Premium:
+    type: file
+    path: "./proxy_provider/VPN Premium.yaml"
+    health-check:
+      enable: true
+      url: http://www.gstatic.com/generate_204
+      interval: 30
+
+proxy-groups:
+- name: Cimpli
+  type: select
+  disable-udp: false
+  use:
+  - VPN Backup
+  - VPN Indonesia
+  - VPN Premium
+  url: http://www.gstatic.com/generate_204
+  interval: '30'
+- name: Game
+  type: select
+  disable-udp: false
+  proxies:
+  - Cimpli
+  - BC
+  - ID
+  - AP
+  - DIRECT
+  url: http://www.gstatic.com/generate_204
+  interval: '30'
+- name: WhatsApp
+  type: select
+  disable-udp: false
+  proxies:
+  - Cimpli
+  - BC
+  - ID
+  - AP
+  - DIRECT
+  url: http://www.gstatic.com/generate_204
+  interval: '30'
+- name: Mbanking
+  type: select
+  disable-udp: false
+  proxies:
+  - Cimpli
+  - BC
+  - ID
+  - AP
+  - DIRECT
+  url: http://www.gstatic.com/generate_204
+  interval: '30'
+- name: Olshop
+  type: select
+  disable-udp: false
+  proxies:
+  - Cimpli
+  - BC
+  - ID
+  - AP
+  - DIRECT
+  url: http://www.gstatic.com/generate_204
+  interval: '30'
+- name: Sosmed
+  type: select
+  disable-udp: false
+  proxies:
+  - Cimpli
+  - BC
+  - ID
+  - AP
+  - DIRECT
+  url: http://www.gstatic.com/generate_204
+  interval: '30'
+- name: Streaming
+  type: select
+  disable-udp: false
+  proxies:
+  - Cimpli
+  - BC
+  - ID
+  - AP
+  - DIRECT
+  url: http://www.gstatic.com/generate_204
+  interval: '30'
+- name: Speedtest
+  type: select
+  disable-udp: false
+  proxies:
+  - Cimpli
+  - BC
+  - ID
+  - AP
+  - DIRECT
+  url: http://www.gstatic.com/generate_204
+  interval: '30'
+- name: Browser
+  type: select
+  disable-udp: false
+  proxies:
+  - Cimpli
+  - BC
+  - ID
+  - AP
+  - DIRECT
+  url: http://www.gstatic.com/generate_204
+  interval: '30'
+- name: uBlock
+  type: select
+  disable-udp: false
+  proxies:
+  - REJECT
+  - Cimpli
+  url: http://www.gstatic.com/generate_204
+  interval: '30'
+- name: Adult 18+
+  type: select
+  disable-udp: false
+  proxies:
+  - REJECT
+  - Cimpli
+  url: http://www.gstatic.com/generate_204
+  interval: '30'
+
+- name: LB Backup
+  type: load-balance
+  strategy: round-robin
+  disable-udp: false
+  use:
+  - VPN Backup
+  url: http://www.gstatic.com/generate_204
+  interval: '30'
+- name: LB Indonesia
+  type: load-balance
+  strategy: round-robin
+  disable-udp: false
+  use:
+  - VPN Indonesia
+  url: http://www.gstatic.com/generate_204
+  interval: '30'
+- name: LB Premium
+  type: load-balance
+  strategy: round-robin
+  disable-udp: false
+  use:
+  - VPN Premium
+  url: http://www.gstatic.com/generate_204
+  interval: '30'
+
+- name: BC
+  type: fallback
+  disable-udp: false
+  proxies:
+  - LB Backup
+  - LB Premium
+  - LB Indonesia
+  url: http://www.gstatic.com/generate_204
+  interval: '30'
+- name: ID
+  type: fallback
+  disable-udp: false
+  proxies:
+  - LB Indonesia
+  - LB Premium
+  - LB Backup
+  url: http://www.gstatic.com/generate_204
+  interval: '30'
+- name: AP
+  type: fallback
+  disable-udp: false
+  proxies:
+  - LB Premium
+  - LB Backup
+  - LB Indonesia
+  url: http://www.gstatic.com/generate_204
+  interval: '30'
+
+port: 7890
+socks-port: 7891
+redir-port: 7892
+mixed-port: 7893
+tproxy-port: 7895
+ipv6: false
+mode: rule
+log-level: silent
+allow-lan: true
+external-controller: 0.0.0.0:9090
+secret: reyre
+bind-address: "*"
+unified-delay: true
+profile:
+  store-selected: true
+  store-fake-ip: true
+dns:
+  enable: true
+  ipv6: false
+  use-host: true
+  enhanced-mode: fake-ip
+  listen: 0.0.0.0:7874
+  nameserver:
+  - dhcp://"wwan1"
+  - dhcp://"wwan0"
+  - dhcp://"eth0.200"
+  - 192.168.9.1
+  - 192.168.8.1
+  - 192.168.7.1
+  - 8.8.8.8
+  - 8.8.4.4
+  default-nameserver:
+  - 192.168.9.1
+  - 192.168.8.1
+  - 192.168.7.1
+  - 8.8.8.8
+  - 8.8.4.4
+  fake-ip-range: 198.18.0.1/16
+  fake-ip-filter:
+  - "+.*"
+rules:
+- RULE-SET,Rule_Game,Game
+- RULE-SET,Rule_Whatsapp,WhatsApp
+- RULE-SET,Rule_Mbanking,Mbanking
+- RULE-SET,Rule_Olshop,Olshop
+- RULE-SET,Rule_Sosmed,Sosmed
+- RULE-SET,Rule_Streaming,Streaming
+- RULE-SET,Rule_Speedtest,Speedtest
+- RULE-SET,Rule_Browser,Browser
+- RULE-SET,Rule_Adblock,uBlock
+- RULE-SET,Rule_Adult18+,Adult 18+
+- MATCH,GLOBAL
+
+rule-providers:
+  Reject:
+    type: file
+    behavior: classical
+    path: "./rule_provider/Reject.yaml"
+  Rule_Game:
+    type: file
+    behavior: classical
+    path: "./rule_provider/Game.yaml"
+  Rule_Whatsapp:
+    type: file
+    behavior: classical
+    path: "./rule_provider/Whatsapp.yaml"
+  Rule_Mbanking:
+    type: file
+    behavior: classical
+    path: "./rule_provider/Mbanking.yaml"
+  Rule_Olshop:
+    type: file
+    behavior: classical
+    path: "./rule_provider/Olshop.yaml"
+  Rule_Sosmed:
+    type: file
+    behavior: classical
+    path: "./rule_provider/Sosmed.yaml"
+  Rule_Streaming:
+    type: file
+    behavior: classical
+    path: "./rule_provider/Streaming.yaml"
+  Rule_Speedtest:
+    type: file
+    behavior: classical
+    path: "./rule_provider/Speedtest.yaml"
+  Rule_Browser:
+    type: file
+    behavior: classical
+    path: "./rule_provider/Browser.yaml"
+  Rule_Adblock:
+    type: file
+    behavior: domain
+    path: "./rule_provider/Adblock.yaml"
+  Rule_Adult18+:
+    type: file
+    behavior: domain
+    path: "./rule_provider/Adult.yaml"
+
+

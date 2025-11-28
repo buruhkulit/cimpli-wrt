@@ -1,0 +1,169 @@
+---
+proxy-providers:
+  VPN Backup:
+    type: file
+    path: "./proxy_provider/VPN Backup.yaml"
+    health-check:
+      enable: true
+      url: http://www.gstatic.com/generate_204
+      interval: 30
+  VPN Indonesia:
+    type: file
+    path: "./proxy_provider/VPN Indonesia.yaml"
+    health-check:
+      enable: true
+      url: http://www.gstatic.com/generate_204
+      interval: 30
+  VPN Premium:
+    type: file
+    path: "./proxy_provider/VPN Premium.yaml"
+    health-check:
+      enable: true
+      url: http://www.gstatic.com/generate_204
+      interval: 30
+
+proxy-groups:
+- name: WhatsApp
+  type: fallback
+  disable-udp: false
+  proxies:
+  - DIRECT
+  url: http://www.gstatic.com/generate_204
+  interval: '30'
+- name: Premium
+  type: fallback
+  disable-udp: false
+  use:
+  - VPN Premium
+  - VPN Backup
+  - VPN Indonesia
+  url: http://www.gstatic.com/generate_204
+  interval: '30'
+- name: Sosmed
+  type: fallback
+  disable-udp: false
+  use:
+  - VPN Indonesia
+  - VPN Premium
+  - VPN Backup
+  url: http://www.gstatic.com/generate_204
+  interval: '30'
+- name: Streaming
+  type: fallback
+  disable-udp: false
+  use:
+  - VPN Backup
+  - VPN Premium
+  - VPN Indonesia
+  url: http://www.gstatic.com/generate_204
+  interval: '30'
+- name: uBlock
+  type: select
+  disable-udp: false
+  proxies:
+  - REJECT
+  - Premium
+  url: http://www.gstatic.com/generate_204
+  interval: '30'
+- name: Adult 18+
+  type: select
+  disable-udp: false
+  proxies:
+  - REJECT
+  - Premium
+  url: http://www.gstatic.com/generate_204
+  interval: '30'
+
+port: 7890
+socks-port: 7891
+redir-port: 7892
+mixed-port: 7893
+tproxy-port: 7895
+ipv6: false
+mode: rule
+log-level: silent
+allow-lan: true
+external-controller: 0.0.0.0:9090
+secret: reyre
+bind-address: "*"
+unified-delay: true
+profile:
+  store-selected: true
+  store-fake-ip: true
+dns:
+  enable: true
+  ipv6: false
+  use-host: true
+  enhanced-mode: fake-ip
+  listen: 0.0.0.0:7874
+  nameserver:
+    - https://8.8.8.8/dns-query
+    - https://8.8.4.4/dns-query
+  fallback:
+    - https://1.1.1.1/dns-query
+    - 8.8.8.8
+    - 1.1.1.1
+  default-nameserver:
+    - 8.8.8.8
+    - 1.1.1.1
+  fake-ip-range: 198.18.0.1/16
+  fake-ip-filter:
+  - "+.*"
+
+rule-providers:
+  Reject:
+    type: file
+    behavior: classical
+    path: "./rule_provider/Reject.yaml"
+  Rule_Game:
+    type: file
+    behavior: classical
+    path: "./rule_provider/Game.yaml"
+  Rule_Whatsapp:
+    type: file
+    behavior: classical
+    path: "./rule_provider/Whatsapp.yaml"
+  Rule_Mbanking:
+    type: file
+    behavior: classical
+    path: "./rule_provider/Mbanking.yaml"
+  Rule_Olshop:
+    type: file
+    behavior: classical
+    path: "./rule_provider/Olshop.yaml"
+  Rule_Sosmed:
+    type: file
+    behavior: classical
+    path: "./rule_provider/Sosmed.yaml"
+  Rule_Streaming:
+    type: file
+    behavior: classical
+    path: "./rule_provider/Streaming.yaml"
+  Rule_Speedtest:
+    type: file
+    behavior: classical
+    path: "./rule_provider/Speedtest.yaml"
+  Rule_Browser:
+    type: file
+    behavior: classical
+    path: "./rule_provider/Browser.yaml"
+  Rule_Adblock:
+    type: file
+    behavior: domain
+    path: "./rule_provider/Adblock.yaml"
+  Rule_Adult18+:
+    type: file
+    behavior: domain
+    path: "./rule_provider/Adult.yaml"
+rules:
+- RULE-SET,Rule_Whatsapp,WhatsApp
+- RULE-SET,Rule_Game,Premium
+- RULE-SET,Rule_Mbanking,Premium
+- RULE-SET,Rule_Olshop,Sosmed
+- RULE-SET,Rule_Sosmed,Sosmed
+- RULE-SET,Rule_Streaming,Streaming
+- RULE-SET,Rule_Speedtest,Sosmed
+- RULE-SET,Rule_Browser,Sosmed
+- RULE-SET,Rule_Adblock,uBlock
+- RULE-SET,Rule_Adult18+,Adult 18+
+- MATCH,GLOBAL

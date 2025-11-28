@@ -1,0 +1,36 @@
+proxies:
+# > Config by Goodboy X MahaVPN
+# > Join Grup tele for More Update: https://t.me/MahaVPN_Group
+# > All Format Akun Clash Silahkan Akses Link Berikut: https://github.com/GboyGud/FORMAT_AKUN_CLASH
+# > Mulai Baris Ini Kebawah Isi Dengan Akun Anda Sendiri
+# > Isi Menggunakan Akun VPN Server INDONESIA
+
+#========= ID =========
+- name: ID PT Pusat Media Indonesia
+  server: 104.18.1.196
+  port: 443
+  type: trojan
+  password: 86768774-70b2-4c15-80c3-02066fb1e3b6
+  skip-cert-verify: true
+  sni: vpnku.buruhkulit.workers.dev
+  network: ws
+  ws-opts:
+    path: /103.6.207.108-8080
+    headers:
+      Host: vpnku.buruhkulit.workers.dev
+  udp: true
+  interface-name: eth0.200
+- name: 🇮🇩 Amazon
+  server: 104.18.1.196
+  port: 443
+  type: trojan
+  password: 86768774-70b2-4c15-80c3-02066fb1e3b6
+  skip-cert-verify: true
+  sni: vpnku.buruhkulit.workers.dev
+  network: ws
+  ws-opts:
+    path: /43.218.77.16-443
+    headers:
+      Host: vpnku.buruhkulit.workers.dev
+  udp: true
+  interface-name: eth0.200
