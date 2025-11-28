@@ -110,51 +110,6 @@ dns:
   fake-ip-filter:
   - "+.*"
 
-rule-providers:
-  Reject:
-    type: file
-    behavior: classical
-    path: "./rule_provider/Reject.yaml"
-  Rule_Game:
-    type: file
-    behavior: classical
-    path: "./rule_provider/Game.yaml"
-  Rule_Whatsapp:
-    type: file
-    behavior: classical
-    path: "./rule_provider/Whatsapp.yaml"
-  Rule_Mbanking:
-    type: file
-    behavior: classical
-    path: "./rule_provider/Mbanking.yaml"
-  Rule_Olshop:
-    type: file
-    behavior: classical
-    path: "./rule_provider/Olshop.yaml"
-  Rule_Sosmed:
-    type: file
-    behavior: classical
-    path: "./rule_provider/Sosmed.yaml"
-  Rule_Streaming:
-    type: file
-    behavior: classical
-    path: "./rule_provider/Streaming.yaml"
-  Rule_Speedtest:
-    type: file
-    behavior: classical
-    path: "./rule_provider/Speedtest.yaml"
-  Rule_Browser:
-    type: file
-    behavior: classical
-    path: "./rule_provider/Browser.yaml"
-  Rule_Adblock:
-    type: file
-    behavior: domain
-    path: "./rule_provider/Adblock.yaml"
-  Rule_Adult18+:
-    type: file
-    behavior: domain
-    path: "./rule_provider/Adult.yaml"
 rules:
 - RULE-SET,Rule_Whatsapp,WhatsApp
 - RULE-SET,Rule_Game,Premium
@@ -167,3 +122,71 @@ rules:
 - RULE-SET,Rule_Adblock,uBlock
 - RULE-SET,Rule_Adult18+,Adult 18+
 - MATCH,GLOBAL
+
+rule-providers:
+  Reject:
+    type: http
+    behavior: classical
+    path: "./Reject.yaml"
+    url: https://raw.githubusercontent.com/buruhkulit/cimpli-wrt/refs/heads/main/rule_provider/Reject.yaml
+    interval: 86400
+  Rule_Game:
+    type: http
+    behavior: classical
+    path: "./Game.yaml"
+    url: https://raw.githubusercontent.com/buruhkulit/cimpli-wrt/refs/heads/main/rule_provider/Reject.yaml
+    interval: 86400
+  Rule_Whatsapp:
+    type: http
+    behavior: classical
+    path: "./Whatsapp.yaml"
+    url: https://raw.githubusercontent.com/buruhkulit/cimpli-wrt/refs/heads/main/rule_provider/Reject.yaml
+    interval: 86400
+  Rule_Mbanking:
+    type: http
+    behavior: classical
+    path: "./Mbanking.yaml"
+    url: https://raw.githubusercontent.com/buruhkulit/cimpli-wrt/refs/heads/main/rule_provider/Reject.yaml
+    interval: 86400
+  Rule_Olshop:
+    type: http
+    behavior: classical
+    path: "./Olshop.yaml"
+    url: https://raw.githubusercontent.com/buruhkulit/cimpli-wrt/refs/heads/main/rule_provider/Reject.yaml
+    interval: 86400
+  Rule_Sosmed:
+    type: http
+    behavior: classical
+    path: "./Sosmed.yaml"
+    url: https://raw.githubusercontent.com/buruhkulit/cimpli-wrt/refs/heads/main/rule_provider/Reject.yaml
+    interval: 86400
+  Rule_Streaming:
+    type: http
+    behavior: classical
+    path: "./Streaming.yaml"
+    url: https://raw.githubusercontent.com/buruhkulit/cimpli-wrt/refs/heads/main/rule_provider/Reject.yaml
+    interval: 86400
+  Rule_Speedtest:
+    type: http
+    behavior: classical
+    path: "./Speedtest.yaml"
+    url: https://raw.githubusercontent.com/buruhkulit/cimpli-wrt/refs/heads/main/rule_provider/Reject.yaml
+    interval: 86400
+  Rule_Browser:
+    type: http
+    behavior: classical
+    path: "./Browser.yaml"
+    url: https://raw.githubusercontent.com/buruhkulit/cimpli-wrt/refs/heads/main/rule_provider/Reject.yaml
+    interval: 86400
+  Rule_Adblock:
+    type: http
+    behavior: classical
+    path: "./Adblock.yaml"
+    url: https://raw.githubusercontent.com/buruhkulit/cimpli-wrt/refs/heads/main/rule_provider/Reject.yaml
+    interval: 86400
+  Rule_Adult18+:
+    type: http
+    behavior: classical
+    path: "./Adult.yaml"
+    url: https://raw.githubusercontent.com/buruhkulit/cimpli-wrt/refs/heads/main/rule_provider/Reject.yaml
+    interval: 86400
